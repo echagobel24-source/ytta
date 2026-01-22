@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YTTA – Video</title>
+
+<style>
+body {
+  background:#0e0e0e;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  padding:20px;
+}
+
+textarea, input, button {
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  box-sizing:border-box;
+}
+
+button {
+  background:#2a2a2a;
+  color:white;
+  font-size:16px;
+}
+
+.card {
+  background:#1a1a1a;
+  margin-top:24px;
+  padding:16px;
+  border-radius:16px;
+}
+
+video {
+  width:100%;
+  aspect-ratio:9/16;
+  border-radius:12px;
+  background:black;
+}
+
+a {
+  display:block;
+  margin-top:10px;
+  color:#9ab;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<h2>YTTA – Video Generator</h2>
+
+<input type="file" accept="image/*">
+<textarea placeholder="Prompt (opsional)"></textarea>
+
+<button onclick="generateVideo()">Generate Video</button>
+
+<div id="output"></div>
+
+<a href="index.html">← Kembali</a>
+
+<script>
+let counter = 1;
+
+function generateVideo() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1080;
+  canvas.height = 1920;
+
+  const ctx = canvas.getContext("2d");
+
+  // background
+  ctx.fillStyle = "#111";
+  ctx.fillRect(0,0,1080,1920);
+
+  // text
+  ctx.fillStyle = "#fff";
+  ctx.font = "48px sans-serif";
+  ctx.fillText("YTTA VIDEO", 360, 960);
+  ctx.font = "28px sans-serif";
+  ctx.fillText("Vertical 9:16 • 1080x1920", 300, 1020);
+
+  canvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <b>Video #${counter++}</b>
+      <p style="opacity:.6">Durasi ±1 menit (simulasi)</p>
+
+      <video controls playsinline>
+        <source src="${url}" type="video/mp4">
+      </video>
+
+      <a href="${url}" download="YTTA_Video.mp4">⬇️ Download Video</a>
+
+      <button onclick="alert('Regenerate video (simulasi)')">Regenerate</button>
+      <button onclick="alert('Lanjutkan scene (simulasi)')">Lanjutkan Scene</button>
+    `;
+    document.getElementById("output").prepend(card);
+  }, "video/mp4");
+}
+</script>
+
+</body>
+</html>
