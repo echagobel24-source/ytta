@@ -14,12 +14,17 @@ body {
   padding: 20px;
 }
 
+h2 {
+  margin-top: 0;
+}
+
 textarea, input {
   width: 100%;
   margin-top: 12px;
   padding: 12px;
   border-radius: 10px;
   border: none;
+  box-sizing: border-box;
 }
 
 button {
@@ -39,6 +44,18 @@ button {
   background: #1a1a1a;
   border-radius: 14px;
 }
+
+.card button {
+  margin-top: 10px;
+  background: #333;
+}
+
+a {
+  display: inline-block;
+  margin-top: 24px;
+  color: #9ab;
+  text-decoration: none;
+}
 </style>
 </head>
 
@@ -46,17 +63,44 @@ button {
 
 <h2>Video Generator</h2>
 
-<textarea placeholder="Deskripsikan video... (bahasa indonesia, aku-kamu, gen z perempuan)"></textarea>
+<textarea id="prompt" placeholder="Deskripsikan video (bahasa Indonesia, aku–kamu, gen z perempuan)"></textarea>
 
-<input type="file" accept="image/*">
+<input id="image" type="file" accept="image/*">
 
-<button>Generate Video</button>
+<button onclick="generateVideo()">Generate Video</button>
 
-<div class="card">
-  <p>⬇️ Hasil video akan tampil di sini</p>
-</div>
+<div id="results"></div>
 
 <a href="index.html">← Kembali</a>
+
+<script>
+let videoCount = 0;
+
+function generateVideo() {
+  const results = document.getElementById('results');
+  videoCount++;
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <p><b>Hasil Video #${videoCount}</b></p>
+    <p>Durasi ±1 menit (simulasi)</p>
+
+    <button onclick="regenerate(this)">🔁 Regenerate</button>
+    <button onclick="continueScene(this)">➕ Lanjutkan Scene</button>
+  `;
+
+  results.prepend(card);
+}
+
+function regenerate(btn) {
+  alert('Regenerate video (simulasi)');
+}
+
+function continueScene(btn) {
+  alert('Lanjutkan scene dari video ini (simulasi)');
+}
+</script>
 
 </body>
 </html>
