@@ -11,12 +11,33 @@ body {
   color: white;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   margin: 0;
-  padding: 24px;
+  padding: 20px;
 }
 
-a {
-  color: #9ab;
-  text-decoration: none;
+textarea, input {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+}
+
+button {
+  margin-top: 16px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: #2a2a2a;
+  color: white;
+  border: none;
+  font-size: 16px;
+}
+
+.card {
+  margin-top: 24px;
+  padding: 16px;
+  background: #1a1a1a;
+  border-radius: 14px;
 }
 </style>
 </head>
@@ -24,7 +45,16 @@ a {
 <body>
 
 <h2>Video Generator</h2>
-<p>Halaman video YTTA aktif.</p>
+
+<textarea placeholder="Deskripsikan video... (bahasa indonesia, aku-kamu, gen z perempuan)"></textarea>
+
+<input type="file" accept="image/*">
+
+<button>Generate Video</button>
+
+<div class="card">
+  <p>⬇️ Hasil video akan tampil di sini</p>
+</div>
 
 <a href="index.html">← Kembali</a>
 
