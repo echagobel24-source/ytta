@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YTTA – Video</title>
+
+<style>
+body {
+  background:#0e0e0e;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  padding:20px;
+}
+
+input, textarea, button {
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  box-sizing:border-box;
+}
+
+textarea { min-height:90px; }
+
+button {
+  background:#2a2a2a;
+  color:white;
+  font-size:16px;
+}
+
+.card {
+  background:#1a1a1a;
+  margin-top:24px;
+  padding:16px;
+  border-radius:16px;
+}
+
+video {
+  width:100%;
+  margin-top:12px;
+  border-radius:12px;
+  background:black;
+}
+
+a {
+  display:block;
+  margin-top:10px;
+  color:#9ab;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<h2>YTTA – Video Generator</h2>
+
+<input type="file" accept="image/*">
+<textarea placeholder="Prompt (opsional)"></textarea>
+
+<button onclick="generate()">Generate Video</button>
+
+<div id="output"></div>
+
+<a href="index.html">← Kembali</a>
+
+<script>
+let id = 1;
+
+function generate() {
+  // ambil video dummy lokal (base64 mp4 kecil)
+  fetch("data:video/mp4;base64,AAAAHGZ0eXBtcDQyAAAAAG1wNDJtcDQxaXNvbTY4AAAAGG1vb3YAAABsbXZoZAAAAAB8JgBfCYAAAPoAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAQAAAQAAQAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+  .then(r => r.blob())
+  .then(blob => {
+    const url = URL.createObjectURL(blob);
+
+    const box = document.createElement("div");
+    box.className = "card";
+    box.innerHTML = `
+      <b>Video #${id++}</b>
+      <video controls playsinline>
+        <source src="${url}" type="video/mp4">
+      </video>
+      <a href="${url}" download="YTTA_Video.mp4">⬇️ Download Video</a>
+      <button onclick="alert('Regenerate (simulasi)')">Regenerate</button>
+      <button onclick="alert('Lanjutkan scene (simulasi)')">Lanjutkan Scene</button>
+    `;
+    document.getElementById("output").prepend(box);
+  });
+}
+</script>
+
+</body>
+</html>
