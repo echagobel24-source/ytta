@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YTTA – Video</title>
+
+<style>
+body {
+  background: #0e0e0e;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 16px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+input, textarea {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  box-sizing: border-box;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  background: #2a2a2a;
+  color: white;
+  border: none;
+  font-size: 16px;
+}
+
+.result-card {
+  margin-top: 24px;
+  padding: 16px;
+  background: #1a1a1a;
+  border-radius: 16px;
+}
+
+.result-card button {
+  margin-top: 10px;
+  background: #333;
+}
+
+video {
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 12px;
+}
+
+a.download {
+  display: block;
+  margin-top: 10px;
+  color: #9ab;
+  text-decoration: none;
+}
+
+a.back {
+  display: inline-block;
+  margin-top: 24px;
+  color: #9ab;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Video Generator</h2>
+
+<label>Upload gambar awal</label>
+<input id="imageInput" type="file" accept="image/*">
+
+<label>Prompt video</label>
+<textarea id="promptInput" placeholder="Bahasa Indonesia, aku–kamu, gen z perempuan."></textarea>
+
+<button onclick="generateVideo()">Generate Video</button>
+
+<div id="results"></div>
+
+<a class="back" href="index.html">← Kembali</a>
+
+<script>
+const STORAGE_KEY = 'ytta_videos';
+const DUMMY_VIDEO_URL = 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4';
+
+let videos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(videos));
+}
+
+function render() {
+  const box = document.getElementById('results');
+  box.innerHTML = '';
+
+  videos.slice().reverse().forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    card.innerHTML = `
+      <p><b>Video #${v.id}</b></p>
+      <p style="opacity:.8">Prompt:</p>
+      <p style="opacity:.7">${v.prompt || '(tanpa prompt)'}</p>
+
+      <video src="${v.url}" controls></video>
+      <a class="download" href="${v.url}" download="YTTA_Video_${v.id}.mp4">⬇️ Download Video</a>
+
+      <button onclick="regenerate(${v.id})">🔁 Regenerate</button>
+      <button onclick="continueScene(${v.id})">➕ Lanjutkan Scene</button>
+    `;
+    box.appendChild(card);
+  });
+}
+
+function generateVideo() {
+  const prompt = document.getElementById('promptInput').value;
+
+  const id = videos.length ? videos[videos.length - 1].id + 1 : 1;
+
+  videos.push({
+    id,
+    prompt,
+    url: DUMMY_VIDEO_URL
+  });
+
+  save();
+  render();
+}
+
+function regenerate(id) {
+  alert('Regenerate video #' + id + ' (simulasi)');
+}
+
+function continueScene(id) {
+  alert('Lanjutkan scene dari video #' + id + ' (simulasi)');
+}
+
+render();
+</script>
+
+</body>
+</html>
